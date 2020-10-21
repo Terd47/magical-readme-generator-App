@@ -20,11 +20,6 @@ function promptUser() {
     },
     {
       type: "input",
-      name: "content",
-      message: "Enter the table of content for this readme?"
-    },
-    {
-      type: "input",
       name: "instruction",
       message: "Describe how this application should be installed"
     },
@@ -40,13 +35,13 @@ function promptUser() {
     },
     {
         type: "input",
-        name: "contributors",
+        name: "contribution",
         message: "Please add contributors"
       },
       {
         type: "input",
         name: "test",
-        message: "Please provide test instructions"
+        message: "Please instructions on how to test this application"
       },
       {
         type: "input",
@@ -60,8 +55,43 @@ function promptUser() {
       },
       {
         type: "input",
-        name: "contact",
-        message: "Please add instructions on how you want to be contacted"
+        name: "questions",
+        message: "Have any questions? Enter it here"
       }
   ]);
+}
+
+function generateReadme(response){
+    return `
+             # ${response.title}
+             #### links and url
+             ${response.github}
+             ${response.email}
+            ### Table of Content
+            * Project Title
+            * Description
+            * Installation instructions
+            * Usage information
+            * License
+            * Contribution Guidelines
+            * Test Instructions
+            * Questions
+            ## Project Description
+            ${response.description}
+            ## Installation Instructions
+            ${response.instruction}
+            ## Usage Information
+            ${response.usage}
+            ## License
+            ${response.license}
+            ## Contribution Guidelines
+            ${response.contribution}
+            ## Testing Guidelines
+            ${response.test}
+            ## Questions
+            Having questions, reach me through ${response.github} or directly send me 
+            and Email to ${response.email}
+
+
+    `;
 }
