@@ -1,0 +1,23 @@
+{
+  "name": "readme-generator-app",
+  "version": "1.0.0",
+  "description": "command line appliaction to automatically generate readme files for appliactions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Terd47/readme-generator-App.git"
+  },
+  "keywords": [
+    "node",
+    "index.js"
+  ],
+  "author": "Doh Terdlar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Terd47/readme-generator-App/issues"
+  },
+  "homepage": "https://github.com/Terd47/readme-generator-App#readme"
+}
