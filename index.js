@@ -2,6 +2,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require("util");
+const Choices = require("inquirer/lib/objects/choices");
 
 // Promisify our writeFile function
 const writeFileAsync = util.promisify(fs.writeFile);
@@ -20,7 +21,7 @@ function promptUser() {
     },
     {
       type: "input",
-      name: "instruction",
+      name: "Installation",
       message: "Describe how this application should be installed"
     },
     {
@@ -30,8 +31,9 @@ function promptUser() {
     },
     {
       type: "input",
-      name: "license",
+      name: "licenses",
       message: "Please enter license options"
+      
     },
     {
         type: "input",
@@ -45,8 +47,13 @@ function promptUser() {
       },
       {
         type: "input",
+        name: "username",
+        message: "Please enter GitHub username "
+      },
+      {
+        type: "input",
         name: "github",
-        message: "Please enter GitHub username  and profile url"
+        message: "Please enter GitHub profile url "
       },
       {
         type: "input",
@@ -63,35 +70,67 @@ function promptUser() {
 
 function generateReadme(response){
     return `
-             # ${response.title}
-             #### links and url
-             ${response.github}
-             ${response.email}
-            ### Table of Content
-            * Project Title
-            * Description
-            * Installation instructions
-            * Usage information
-            * License
-            * Contribution Guidelines
-            * Test Instructions
-            * Questions
-            ## Project Description
-            ${response.description}
-            ## Installation Instructions
-            ${response.instruction}
-            ## Usage Information
-            ${response.usage}
-            ## License
-            ${response.license}
-            ## Contribution Guidelines
-            ${response.contribution}
-            ## Testing Guidelines
-            ${response.test}
-            ## Questions
-            Having questions, reach me through ${response.github} or directly send me 
-            and Email to ${response.email}
+# ${response.title}
+#### links and url
+${response.github}
+${response.email}
+### Table of Content
+-[Description](#description)
 
+-[Installation](#installation)
 
+-[Usage](#usage)
+
+-[Licenses](#licenses)
+
+-[Contribution](#contribution)
+
+-[Test](#test)
+
+-[Username](#username)
+
+-[Profile](#profile
+
+## Username:
+  ${response.username}
+
+## Description:             
+  ${response.description}
+
+## Installation:              
+   ${response.Installation}
+
+## Usage:              
+  ${response.usage}
+
+## Licenses:             
+  ${response.licenses}
+
+## Contribution:            
+  ${response.contribution}
+
+## Test:            
+  ${response.test}
+
+## Email:             
+  ${response.email}
+
+## Profile:             
+  ${response.github}
     `;
 }
+module.exports = generateReadme;
+
+promptUser()
+  .then(function(response) {
+    const readMe = generateReadme(response);
+
+    // Write contents of html to index.html
+    return writeFileAsync("README.md", readMe);
+  })
+  .then(function() {
+    console.log("Successfully wrote the readme file");
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
