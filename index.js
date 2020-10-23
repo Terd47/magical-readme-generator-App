@@ -2,7 +2,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const path = require("path");
-const generateReadme = require("./generateReadme");
+const generateReadme = require("./utils/generateReadme");
 const util = require('util');
 
 const writeFileAsync = util.promisify(fs.writeFile);
@@ -44,7 +44,7 @@ function promptUser() {
       {
         type: "input",
         name: "test",
-        message: "What command should be run to test this appliaction?",
+        message: "What command should be run to test this application?",
         default: "npm test"
       },
       {
@@ -59,24 +59,6 @@ function promptUser() {
       },
   ]);
 }
-
-
-//   function writeToFile(fileName, data) {
-//     return fs.writeFileSync(path.join(process.cwd(), fileName), data);
-//   }
-  
-//   function init() {
-//     inquirer.prompt(prompts)
-//     .then((inquirerResponses) => {
-//       console.log("Creating README...");
-//       writeToFile("README.md", generateReadme({...inquirerResponses}));
-//     })
-//     .catch(function(err) {
-//         console.log(err);
-//       });
-//   }
-  
-//   init();
 
 // // get response from prompts and write to file
 promptUser()
