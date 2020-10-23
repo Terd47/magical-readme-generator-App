@@ -1,14 +1,14 @@
-// Import our required modules
+// Import all required modules
 const inquirer = require("inquirer");
 const fs = require("fs");
-const util = require("util");
-const Choices = require("inquirer/lib/objects/choices");
+const path = require("path");
+const generateReadme = require("./generateReadme");
+const util = require('util');
 
-// Promisify our writeFile function
 const writeFileAsync = util.promisify(fs.writeFile);
 
 function promptUser() {
-  return inquirer.prompt([
+   return inquirer.prompt([
     {
       type: "input",
       name: "title",
@@ -21,29 +21,31 @@ function promptUser() {
     },
     {
       type: "input",
-      name: "Installation",
-      message: "Describe how this application should be installed"
+      name: "installation",
+      message: "Describe how this application should be installed",
+      default: "npm i"
     },
     {
       type: "input",
       name: "usage",
-      message: "How should this application should be used"
+      message: "How should users use this application"
     },
     {
-      type: "input",
-      name: "licenses",
-      message: "Please enter license options"
-      
+      type: "list",
+      name: "license",
+      message: "Please select a license for your project",
+      choices: [ "MIT", "APACHE 2.0", "GPL 3.0", "BSD 3", "None" ]
     },
     {
         type: "input",
         name: "contribution",
-        message: "Please add contributors"
+        message: "What do users need to know to contribute to this project?"
       },
       {
         type: "input",
         name: "test",
-        message: "Please instructions on how to test this application"
+        message: "What command should be run to test this appliaction?",
+        default: "npm test"
       },
       {
         type: "input",
@@ -52,84 +54,41 @@ function promptUser() {
       },
       {
         type: "input",
-        name: "github",
-        message: "Please enter GitHub profile url "
-      },
-      {
-        type: "input",
         name: "email",
         message: "Please enter your email Address"
       },
-      {
-        type: "input",
-        name: "questions",
-        message: "Have any questions? Enter it here"
-      }
   ]);
 }
 
-function generateReadme(response){
-    return `
-# ${response.title}
-#### links and url
-${response.github}
-${response.email}
-### Table of Content
--[Description](#description)
 
--[Installation](#installation)
+//   function writeToFile(fileName, data) {
+//     return fs.writeFileSync(path.join(process.cwd(), fileName), data);
+//   }
+  
+//   function init() {
+//     inquirer.prompt(prompts)
+//     .then((inquirerResponses) => {
+//       console.log("Creating README...");
+//       writeToFile("README.md", generateReadme({...inquirerResponses}));
+//     })
+//     .catch(function(err) {
+//         console.log(err);
+//       });
+//   }
+  
+//   init();
 
--[Usage](#usage)
-
--[Licenses](#licenses)
-
--[Contribution](#contribution)
-
--[Test](#test)
-
--[Username](#username)
-
--[Profile](#profile
-
-## Username:
-  ${response.username}
-
-## Description:             
-  ${response.description}
-
-## Installation:              
-   ${response.Installation}
-
-## Usage:              
-  ${response.usage}
-
-## Licenses:             
-  ${response.licenses}
-
-## Contribution:            
-  ${response.contribution}
-
-## Test:            
-  ${response.test}
-
-## Email:             
-  ${response.email}
-
-## Profile:             
-  ${response.github}
-    `;
-}
-module.exports = generateReadme;
-
+// // get response from prompts and write to file
 promptUser()
   .then(function(response) {
     const readMe = generateReadme(response);
 
-    // Write contents of html to index.html
+    // Write contents of the readme to the readme file
+    console.log('Making ReadMe file')
     return writeFileAsync("README.md", readMe);
   })
   .then(function() {
-    console.log("Successfully wrote the readme file");
+    console.log("Successfully created the readme file");
   })
   .catch(function(err) {
     console.log(err);
